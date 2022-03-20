@@ -1,24 +1,34 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const topic = mongoose.model('topic')
+const Topic = mongoose.model('topic')
 const TopicType = require('./topic_type')
 const {
   GraphQLObjectType,
-  GraphQLString
+  GraphQLList,
+  GraphQLID,
+  GraphQLNonNull
 } = graphql;
 
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
-  fields: {
-    topic : {
-      type: TopicType,
-      args: { id: { type: GraphQLString } },
+  fields: () => ({
+    //get the list of all topics
+    topics: {
+      type: new GraphQLList(TopicType),
       resolve() {
-        return topic.find({});
+        return Topic.find({});
+      }
+    },
+    //get the topic by id
+    topic: {
+      type: TopicType,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(parentValue, { id }) {
+        return Topic.findById(id);
       }
     }
-  }
+  })
 });
 
 module.exports = RootQuery;

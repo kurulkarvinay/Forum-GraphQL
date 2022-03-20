@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 const Root = () => {
   return (
     <div>
-      Former Starter
+      Forum Starter
     </div>
   );
 };

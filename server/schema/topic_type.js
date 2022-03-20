@@ -5,11 +5,11 @@ const {
 } = graphql;
 
 const TopicType = new GraphQLObjectType({
-  name: 'Topic',
-  fields: {
+  name: 'TopicType',
+  fields:() => ({
     id: { type: GraphQLString },
     title: { type: GraphQLString }
-  }
+  })
 });
 
 module.exports = TopicType;
